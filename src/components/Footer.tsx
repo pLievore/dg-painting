@@ -127,10 +127,9 @@ export function Footer() {
           <p>
             © {year} {SITE.name} — Todos os direitos reservados.
           </p>
-          {/* TODO: trocar [Seu Nome] pelo nome do desenvolvedor/agência */}
           <p>
             Desenvolvido com cuidado por{' '}
-            <span className="text-gold/80">[Seu Nome]</span>
+            <span className="text-gold/80">Paulo Lievore Leoni</span>
           </p>
         </div>
       </div>
