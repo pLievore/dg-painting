@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://dgpinturas.com.br'),
+  metadataBase: new URL('https://dg-pinturas.vercel.app'),
   title: {
     default:
       'DG Pinturas | Pinturas e Acabamentos Premium em Londrina e São Paulo',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://dgpinturas.com.br',
+    url: 'https://dg-pinturas.vercel.app',
     siteName: SITE.name,
     title: 'DG Pinturas | Pinturas e Acabamentos Premium',
     description:
@@ -89,12 +89,12 @@ export const metadata: Metadata = {
 const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://dgpinturas.com.br',
+  '@id': 'https://dg-pinturas.vercel.app',
   name: 'DG Pinturas',
   description:
     'Pinturas e acabamentos premium — residencial, comercial, textura, grafiato, gesso e drywall.',
-  image: 'https://dgpinturas.com.br/images/logo.png',
-  url: 'https://dgpinturas.com.br',
+  image: 'https://dg-pinturas.vercel.app/images/logo.png',
+  url: 'https://dg-pinturas.vercel.app',
   telephone: '+55-42-99843-4058',
   email: SITE.email,
   founder: { '@type': 'Person', name: SITE.founder },
