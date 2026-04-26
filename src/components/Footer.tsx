@@ -128,8 +128,16 @@ export function Footer() {
             © {year} {SITE.name} — Todos os direitos reservados.
           </p>
           <p>
-            Desenvolvido com cuidado por{' '}
-            <span className="text-gold/80">Paulo Lievore Leoni</span>
+            Entre em contato - desenvolvedor{' '}
+            <a
+              href="https://pauloleoni.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Portfólio de Paulo Lievore Leoni"
+              className="text-gold/80 hover:text-gold transition-colors"
+            >
+              https://pauloleoni.vercel.app/
+            </a>
           </p>
         </div>
       </div>

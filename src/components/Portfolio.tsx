@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Expand, X } from 'lucide-react';
 import {
@@ -9,7 +9,7 @@ import {
   PORTFOLIO_ITEMS,
   type PortfolioCategory,
 } from '@/lib/content';
-import { fadeUp, staggerFast, viewportOnce } from '@/lib/motion';
+import { viewportOnce } from '@/lib/motion';
 import { SectionHeading } from './SectionHeading';
 import { BeforeAfter } from './BeforeAfter';
 import { BLUR_PLACEHOLDERS } from '@/lib/blur-placeholders';
@@ -30,8 +30,12 @@ export function Portfolio() {
   const [filter, setFilter] = useState<PortfolioCategory>('all');
   const [lightbox, setLightbox] = useState<string | null>(null);
 
-  const filtered = PORTFOLIO_ITEMS.filter(
-    (item) => filter === 'all' || item.category === filter
+  const filtered = useMemo(
+    () =>
+      PORTFOLIO_ITEMS.filter(
+        (item) => filter === 'all' || item.category === filter
+      ),
+    [filter]
   );
 
   return (
@@ -73,54 +77,43 @@ export function Portfolio() {
         </motion.div>
 
         {/* Grid */}
-        <motion.div
-          variants={staggerFast}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportOnce}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5"
-        >
-          <AnimatePresence mode="popLayout">
-            {filtered.map((item, i) => (
-              <motion.button
-                key={item.id}
-                layout
-                variants={fadeUp}
-                exit={{ opacity: 0, scale: 0.9 }}
-                onClick={() => setLightbox(item.id)}
-                className="group relative aspect-[4/5] overflow-hidden rounded-sm border border-gold/15 hover:border-gold/60 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-gold bg-ink-soft"
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  placeholder="blur"
-                  blurDataURL={blurFor(item.image)}
-                />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+          {filtered.map((item) => (
+            <button
+              key={`${filter}-${item.id}`}
+              onClick={() => setLightbox(item.id)}
+              className="group relative aspect-[4/5] overflow-hidden rounded-sm border border-gold/15 hover:border-gold/60 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-gold bg-ink-soft"
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                placeholder="blur"
+                blurDataURL={blurFor(item.image)}
+              />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
 
-                <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-500">
-                  <span className="self-start px-2 py-0.5 bg-gold text-ink text-[10px] tracking-widest uppercase font-bold rounded-sm mb-2">
-                    {CATEGORY_LABEL[item.category] ?? item.category}
-                  </span>
-                  <h4 className="font-display text-sm md:text-base text-cream mb-1 leading-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-[11px] tracking-wider text-gold/80">
-                    {item.location}
-                  </p>
-                </div>
+              <div className="absolute inset-0 p-4 flex flex-col justify-end opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-500">
+                <span className="self-start px-2 py-0.5 bg-gold text-ink text-[10px] tracking-widest uppercase font-bold rounded-sm mb-2">
+                  {CATEGORY_LABEL[item.category] ?? item.category}
+                </span>
+                <h4 className="font-display text-sm md:text-base text-cream mb-1 leading-tight">
+                  {item.title}
+                </h4>
+                <p className="text-[11px] tracking-wider text-gold/80">
+                  {item.location}
+                </p>
+              </div>
 
-                <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-ink/70 backdrop-blur border border-gold/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <Expand className="w-4 h-4 text-gold" />
-                </div>
-              </motion.button>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+              <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-ink/70 backdrop-blur border border-gold/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                <Expand className="w-4 h-4 text-gold" />
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Lightbox */}
